@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\ObjectStorageService;
 
-class Service extends Client
+class Service extends Encapsulation
 {
     public function list()
     {

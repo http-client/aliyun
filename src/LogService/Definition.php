@@ -7,12 +7,13 @@ namespace HttpClient\Aliyun\LogService;
 use HttpClient\Aliyun\CalculatesSignatureWithAlgoSha256;
 use HttpClient\Aliyun\Signature\AuthorizationSignature;
 use HttpClient\Client as BaseClient;
+use HttpClient\Contracts\Application;
 
 class Definition
 {
     protected $app;
 
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
@@ -50,7 +51,7 @@ class Definition
 
         $headers['Authorization'] = sprintf('LOG %s:%s', $this->app->config['access_key_id'], AuthorizationSignature::sign($method, $contentMD5, $contentType, $date, $ch, $resource, $this->app->config['access_key_secret']));
 
-        return $this->request($method, $resource, [
+        return $this->app->client->request($method, $resource, [
             'headers' => $headers,
             // 'body' => empty($json) ? null : json_encode($json),
         ] + $options);

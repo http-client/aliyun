@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\SecurityTokenService;
 
-class Role extends Client
+class Role extends Encapsulation
 {
     public function assume($arn, $sessionName, array $policy = null, int $durationSeconds = null)
     {

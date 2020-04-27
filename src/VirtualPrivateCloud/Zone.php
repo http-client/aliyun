@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\VirtualPrivateCloud;
 
-class Zone extends Client
+class Zone extends Encapsulation
 {
     public function list($region)
     {

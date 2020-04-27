@@ -5,31 +5,41 @@
 namespace HttpClient\Aliyun\MessageNotificationService;
 
 use HttpClient\Aliyun\Signature\AuthorizationSignature;
-use HttpClient\Client as BaseClient;
+use HttpClient\Client;
+use HttpClient\Config\Repository;
 
-class Client extends BaseClient
+class Encapsulation
 {
+    protected $client;
+    protected $config;
+
+    public function __construct(Client $client, Repository $config)
+    {
+        $this->client = $client;
+        $this->config = $config;
+    }
+
     public function request(string $method, string $resource, array $options = [])
     {
         $headers = [
-            // 'Host' => $this->app->config['endpoint'],
+            // 'Host' => $this->config['endpoint'],
             'Date' => $date = gmdate('D, d M Y H:i:s T'),
             'Content-Type' => $contentType = 'text/xml',
             // 'Content-Length' => '0',
             'x-mns-version' => '2015-06-06',
         ];
 
-        if (isset($this->app->config['security_token'])) {
-            $headers['security-token'] = $this->app->config['security_token'];
+        if (isset($this->config['security_token'])) {
+            $headers['security-token'] = $this->config['security_token'];
         }
 
-        $headers['Authorization'] = 'MNS '.$this->app->config['access_key_id'].':'.AuthorizationSignature::sign($method, '', $contentType, $date, ['x-mns-version' => '2015-06-06'], $resource, $this->app->config['access_key_secret']);
+        $headers['Authorization'] = 'MNS '.$this->config['access_key_id'].':'.AuthorizationSignature::sign($method, '', $contentType, $date, ['x-mns-version' => '2015-06-06'], $resource, $this->config['access_key_secret']);
 
         // $headers['Authorization'] = 'MNS '.$this->options['access_key_id'].':'.$this->calculateAuthorizationSignature(
         //     $method, '', $contentType, $date, ['x-mns-version' => '2015-06-06'], $resource
         // );
 
-        return $this->request($method, $resource, array_merge([
+        return $this->client->request($method, $resource, array_merge([
             'headers' => $headers,
         ], $options));
     }

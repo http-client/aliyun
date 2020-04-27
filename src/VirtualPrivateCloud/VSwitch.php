@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\VirtualPrivateCloud;
 
-class VSwitch extends Client
+class VSwitch extends Encapsulation
 {
     public function list($region, array $params = [])
     {

@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\ElasticComputeService;
 
-class SecurityGroup extends Definition
+class SecurityGroup extends Encapsulation
 {
     public function create(array $params = [])
     {

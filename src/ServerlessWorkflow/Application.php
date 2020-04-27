@@ -1,8 +1,6 @@
 <?php
 
-
-
-namespace HttpClient\Aliyun\MessageNotificationService;
+namespace HttpClient\Aliyun\ServerlessWorkflow;
 
 use HttpClient\Application as BaseApplication;
 
@@ -14,7 +12,7 @@ class Application extends BaseApplication
      * @var array
      */
     protected $definitions = [
-        'queue' => Queue::class,
-        'queue_message' => QueueMessage::class,
+        'flow' => Flow::class,
+        'execution' => Execution::class,
     ];
 }

@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\NetworkAttachedStorage;
 
-class AccessGroup extends Client
+class AccessGroup extends Encapsulation
 {
     public function create($accessGroupName, $accessGroupType, $fileSystemType = null, $description = null)
     {

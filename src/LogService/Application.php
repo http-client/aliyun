@@ -19,11 +19,11 @@ class Application extends BaseApplication
 
     public function project($name)
     {
-        $parsed = parse_url($this->config['http']['base_uri']);
+        $parsed = parse_url($this->client->getBaseUri());
 
         $baseUri = sprintf('%s://%s', $parsed['scheme'], $name.'.'.$parsed['host']);
 
-        return new Project\Application(array_merge($this->config, [
+        return new Project\Application(array_merge($this->config->all(), [
             'bucket' => $name,
             'http' => [
                 'base_uri' => $baseUri,

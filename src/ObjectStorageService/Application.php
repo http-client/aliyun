@@ -9,21 +9,21 @@ use HttpClient\Application as BaseApplication;
 class Application extends BaseApplication
 {
     /**
-     * The client instances.
+     * The definitions in the container.
      *
      * @var array
      */
-    protected $clients = [
+    protected $definitions = [
         'service' => Service::class,
     ];
 
     public function bucket($name)
     {
-        $parsed = parse_url($this->config['http']['base_uri']);
+        $parsed = parse_url($this->client->getBaseUri());
 
         $baseUri = sprintf('%s://%s', $parsed['scheme'], $name.'.'.$parsed['host']);
 
-        return new BucketApplication(array_merge($this->config, [
+        return new Bucket\Application(array_merge($this->config->all(), [
             'bucket' => $name,
             'http' => [
                 'base_uri' => $baseUri,

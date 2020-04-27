@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\RelationalDatabaseService;
 
-class Database extends Client
+class Database extends Encapsulation
 {
     public function list($instanceId, array $params = [])
     {

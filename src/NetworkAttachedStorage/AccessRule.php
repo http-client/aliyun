@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\NetworkAttachedStorage;
 
-class AccessRule extends Client
+class AccessRule extends Encapsulation
 {
     public function create($accessGroupName, $sourceCidrIp, array $params = [])
     {

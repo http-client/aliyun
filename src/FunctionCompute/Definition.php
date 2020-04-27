@@ -5,15 +5,18 @@
 namespace HttpClient\Aliyun\FunctionCompute;
 
 use HttpClient\Aliyun\Signature\AuthorizationSignature;
-use HttpClient\Client as BaseClient;
+use HttpClient\Client;
+use HttpClient\Config\Repository;
 
 class Definition
 {
-    protected $app;
+    protected $client;
+    protected $config;
 
-    public function __construct($app)
+    public function __construct(Client $client, Repository $config)
     {
-        $this->app = $app;
+        $this->client = $client;
+        $this->config = $config;
     }
 
     /**
@@ -25,8 +28,8 @@ class Definition
 
     public function request($method, $resource, array $options = [], array $canonicalizedHeaders = [])
     {
-        if (isset($this->app->config['security_token'])) {
-            $canonicalizedHeaders = array_merge($canonicalizedHeaders, ['x-fc-security-token' => $this->app->config['security_token']]);
+        if (isset($this->config['security_token'])) {
+            $canonicalizedHeaders = array_merge($canonicalizedHeaders, ['x-fc-security-token' => $this->config['security_token']]);
         }
         $contentMd5 = '';
 
@@ -37,11 +40,11 @@ class Definition
             // 'Content-MD5' => '',
         ] + $canonicalizedHeaders;
 
-        $signature = AuthorizationSignature::sign($method, $contentMd5, $contentType, $date, $canonicalizedHeaders, $resource, $this->app->config['access_key_secret'], 'sha256');
+        $signature = AuthorizationSignature::sign($method, $contentMd5, $contentType, $date, $canonicalizedHeaders, $resource, $this->config['access_key_secret'], 'sha256');
 
-        $headers['Authorization'] = sprintf('FC %s:%s', $this->app->config['access_key_id'], $signature);
+        $headers['Authorization'] = sprintf('FC %s:%s', $this->config['access_key_id'], $signature);
 
-        return $this->request($method, $resource, array_merge(
+        return $this->client->request($method, $resource, array_merge(
             ['headers' => $headers], $options
         ));
     }

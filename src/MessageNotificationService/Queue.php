@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\MessageNotificationService;
 
-class Queue extends Client
+class Queue extends Encapsulation
 {
     public function list()
     {

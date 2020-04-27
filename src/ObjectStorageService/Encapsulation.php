@@ -5,11 +5,21 @@
 namespace HttpClient\Aliyun\ObjectStorageService;
 
 use HttpClient\Aliyun\Signature\AuthorizationSignature;
-use HttpClient\Client as BaseClient;
+use HttpClient\Client;
+use HttpClient\Config\Repository;
 use HttpClient\Support\Arr;
 
-class Client extends BaseClient
+class Encapsulation
 {
+    protected $client;
+    protected $config;
+
+    public function __construct(Client $client, Repository $config)
+    {
+        $this->client = $client;
+        $this->config = $config;
+    }
+
     public function request($method, $resource, array $options = [])
     {
         $options['headers'] = array_merge([
@@ -23,9 +33,9 @@ class Client extends BaseClient
         // $headers = array_merge($headers, $ch);
 
         $options['headers']['Authorization'] = sprintf(
-            'OSS %s:%s', $this->app->config['access_key_id'], AuthorizationSignature::sign($method, '', $contentType, $date, $ch, (isset($this->app->config['bucket']) ? '/'.$this->app->config['bucket'] : '').$resource, $this->app->config['access_key_secret'])
+            'OSS %s:%s', $this->config['access_key_id'], AuthorizationSignature::sign($method, '', $contentType, $date, $ch, (isset($this->config['bucket']) ? '/'.$this->config['bucket'] : '').$resource, $this->config['access_key_secret'])
         );
 
-        return $this->request($method, $resource, $options);
+        return $this->client->request($method, $resource, $options);
     }
 }

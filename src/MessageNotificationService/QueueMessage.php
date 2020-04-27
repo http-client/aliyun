@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\MessageNotificationService;
 
-class QueueMessage extends Client
+class QueueMessage extends Encapsulation
 {
     public function send($queueName, string $message, int $delaySeconds = null, int $priority = null)
     {

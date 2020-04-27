@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\NetworkAttachedStorage;
 
-class MountTarget extends Client
+class MountTarget extends Encapsulation
 {
     public function list($fileSystemId, array $params = [])
     {

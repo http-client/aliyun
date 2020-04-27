@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\CertificateAuthorityService;
 
-class UserCertificate extends Definition
+class UserCertificate extends Encapsulation
 {
     public function create($name, $cert, $key, array $params = [])
     {

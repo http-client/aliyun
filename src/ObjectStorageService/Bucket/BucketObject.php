@@ -2,9 +2,11 @@
 
 
 
-namespace HttpClient\Aliyun\ObjectStorageService;
+namespace HttpClient\Aliyun\ObjectStorageService\Bucket;
 
-class BucketObject extends Client
+use HttpClient\Aliyun\ObjectStorageService\Encapsulation;
+
+class BucketObject extends Encapsulation
 {
     public function head($objectName)
     {

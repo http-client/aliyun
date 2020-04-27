@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\RelationalDatabaseService;
 
-class Instance extends Client
+class Instance extends Encapsulation
 {
     public function get($instanceId, bool $expired = null)
     {

@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\RelationalDatabaseService;
 
-class Account extends Client
+class Account extends Encapsulation
 {
     public function create($instanceId, $name, $password, $type = null, $description = null)
     {

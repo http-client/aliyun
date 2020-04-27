@@ -5,15 +5,25 @@
 namespace HttpClient\Aliyun\SecurityTokenService;
 
 use HttpClient\Aliyun\Signature\RpcSignature;
-use HttpClient\Client as BaseClient;
+use HttpClient\Client;
+use HttpClient\Config\Repository;
 use function HttpClient\str_random;
 
-class Client extends BaseClient
+class Encapsulation
 {
+    protected $client;
+    protected $config;
+
+    public function __construct(Client $client, Repository $config)
+    {
+        $this->client = $client;
+        $this->config = $config;
+    }
+
     public function request(array $params)
     {
         $query = array_merge([
-            'AccessKeyId' => $this->app->config['access_key_id'],
+            'AccessKeyId' => $this->config['access_key_id'],
             'Format' => 'JSON',
             'SignatureMethod' => 'HMAC-SHA1',
             'SignatureNonce' => str_random(),
@@ -22,9 +32,9 @@ class Client extends BaseClient
             'Version' => '2015-04-01',
         ], $params);
         // dd($query);
-        $query['Signature'] = RpcSignature::sign($query, $this->app->config['access_key_secret']);
+        $query['Signature'] = RpcSignature::sign($query, $this->config['access_key_secret']);
         // dd($query);
 
-        return $this->request('POST', '/', compact('query'));
+        return $this->client->request('POST', '/', compact('query'));
     }
 }

@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\DomainNameService;
 
-class Record extends Client
+class Record extends Definition
 {
     public function list($domainName, array $params = [])
     {

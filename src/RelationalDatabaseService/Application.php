@@ -9,11 +9,11 @@ use HttpClient\Application as BaseApplication;
 class Application extends BaseApplication
 {
     /**
-     * The client instances.
+     * The definitions in the container.
      *
      * @var array
      */
-    protected $clients = [
+    protected $definitions = [
         'instance' => Instance::class,
         'database' => Database::class,
         'account' => Account::class,

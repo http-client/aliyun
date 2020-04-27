@@ -2,35 +2,35 @@
 
 
 
-namespace HttpClient\Aliyun\DomainNameService;
+namespace HttpClient\Aliyun\VirtualPrivateCloud;
 
 use HttpClient\Aliyun\Signature\RpcSignature;
 use HttpClient\Client;
 use HttpClient\Config\Repository;
 use function HttpClient\str_random;
 
-class Definition
+class Encapsulation
 {
-    protected $config;
     protected $client;
+    protected $config;
 
-    public function __construct(Repository $config, Client $client)
+    public function __construct(Client $client, Repository $config)
     {
+        $this->client = $client->setBaseUri('https://vpc.aliyuncs.com');
         $this->config = $config;
-        $this->client = $client->setBaseUri('https://alidns.aliyuncs.com');
     }
 
-    public function request(array $query)
+    public function request(array $params)
     {
         $query = array_merge([
-            'Format' => 'JSON',
-            'Version' => '2015-01-09',
             'AccessKeyId' => $this->config['access_key_id'],
+            'Format' => 'JSON',
             'SignatureMethod' => 'HMAC-SHA1',
-            'Timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
+            'SignatureNonce' => str_random(),
             'SignatureVersion' => '1.0',
-            'SignatureNonce' => str_random()
-        ], $query);
+            'Timestamp' => gmdate("Y-m-d\TH:i:s\Z"),
+            'Version' => '2016-04-28',
+        ], $params);
 
         $query['Signature'] = RpcSignature::sign($query, $this->config['access_key_secret']);
 

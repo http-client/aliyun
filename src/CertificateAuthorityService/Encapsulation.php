@@ -5,16 +5,19 @@
 namespace HttpClient\Aliyun\CertificateAuthorityService;
 
 use HttpClient\Aliyun\Signature\RpcSignature;
+use HttpClient\Client;
+use HttpClient\Config\Repository;
 use function HttpClient\str_random;
 
-class Definition
+class Encapsulation
 {
-    protected $app;
+    protected $client;
+    protected $config;
 
-    public function __construct($app)
+    public function __construct(Client $client, Repository $config)
     {
-        $this->app = $app;
-        $this->app->client->setBaseUri('https://cas.aliyuncs.com');
+        $this->config = $config;
+        $this->client = $client->setBaseUri('https://cas.aliyuncs.com');
     }
 
     public function request(array $params)
@@ -22,7 +25,7 @@ class Definition
         $query = array_merge([
             'Format' => 'JSON',
             'Version' => '2018-07-13',
-            'AccessKeyId' => $this->app->config['access_key_id'],
+            'AccessKeyId' => $this->config['access_key_id'],
             'SignatureMethod' => 'HMAC-SHA1',
             'Timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
             'SignatureVersion' => '1.0',
@@ -30,9 +33,9 @@ class Definition
             // 'ResourceOwnerAccount' => null,
         ], $params);
 
-        $query['Signature'] = RpcSignature::sign($query, $this->app->config['access_key_secret']);
+        $query['Signature'] = RpcSignature::sign($query, $this->config['access_key_secret']);
 
-        return $this->request('POST', '/', compact('query'));
+        return $this->client->request('POST', '/', compact('query'));
     }
 
     // public function request20180813(array $params)

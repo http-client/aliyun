@@ -1,10 +1,8 @@
 <?php
 
-
-
 namespace HttpClient\Aliyun\ResourceAccessManagement;
 
-class Role extends Client
+class Role extends Definition
 {
     /**
      * @param string $name

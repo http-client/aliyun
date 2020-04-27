@@ -4,7 +4,7 @@
 
 namespace HttpClient\Aliyun\NetworkAttachedStorage;
 
-class Zone extends Client
+class Zone extends Encapsulation
 {
     public function list($region)
     {
