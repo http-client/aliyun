@@ -16,20 +16,4 @@ class Log extends Definition
 
         return $this->request('GET', "/logstores/{$logstoreName}", compact('query'));
     }
-
-    public function putLogs(string $logstoreName, $data)
-    {
-        // dd($data);
-
-        // dd(strlen($data));
-
-        $mergedHeaders = [
-            'Content-MD5' => md5($data),
-            'Content-Type' => 'application/x-protobuf',
-            // 'x-log-bodyrawsize' => ''.strlen($data),
-            // 'x-log-compresstype' => 'deflate',
-        ];
-        // $data = gzcompress($data);
-        return $this->request('POST', "/logstores/{$logstoreName}/shards/lb", [], $mergedHeaders, $data);
-    }
 }

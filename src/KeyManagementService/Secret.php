@@ -13,6 +13,30 @@ class Secret extends Definition
         ]);
     }
 
+    public function get($name)
+    {
+        return $this->request([
+            'Action' => 'DescribeSecret',
+            'SecretName' => $name,
+        ]);
+    }
+
+    public function versions($name, array $params = [])
+    {
+        return $this->request([
+            'Action' => 'ListSecretVersionIds',
+            'SecretName' => $name,
+        ] + $params);
+    }
+
+    public function randomPassword($length = null, array $params = [])
+    {
+        return $this->request([
+            'Action' => 'GetRandomPassword',
+            'PasswordLength' => $length,
+        ] + $params);
+    }
+
     public function create(array $params)
     {
         return $this->request([
@@ -40,11 +64,18 @@ class Secret extends Definition
         ]);
     }
 
-    public function info($name)
+    public function delete($name, array $params = [])
     {
         return $this->request([
-            'Action' => 'DescribeSecret',
+            'Action' => 'DeleteSecret',
             'SecretName' => $name,
+        ] + $params);
+    }
+
+    public function forceDelete($name)
+    {
+        return $this->delete($name, [
+            'ForceDeleteWithoutRecovery' => 'true',
         ]);
     }
 }

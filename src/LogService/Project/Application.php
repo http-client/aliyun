@@ -15,12 +15,7 @@ class Application extends BaseApplication
      */
     protected $definitions = [
         'log' => Log::class,
-        'logstore' => Logstore::class,
+        // 'logstore' => Logstore::class,
         'index' => Index::class,
     ];
-
-    public function info()
-    {
-        return $this->log->request('GET', '/');
-    }
 }

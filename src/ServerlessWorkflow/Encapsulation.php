@@ -47,7 +47,7 @@ class Encapsulation
             'SignatureNonce' => str_random(),
             'Timestamp' => gmdate("Y-m-d\TH:i:s\Z"),
             'Version' => '2019-03-15',
-            'SecurityToken' => $this->config['security_token'],
+            'SecurityToken' => $this->config['security_token'] ?? null,
         ], $params);
 
         $params['Signature'] = RpcSignature::sign($params, $this->config['access_key_secret']);

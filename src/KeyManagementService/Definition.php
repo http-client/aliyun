@@ -5,15 +5,18 @@
 namespace HttpClient\Aliyun\KeyManagementService;
 
 use HttpClient\Aliyun\Signature\RpcSignature;
-use HttpClient\Client as BaseClient;
+use HttpClient\Client;
+use HttpClient\Config\Repository;
 
 class Definition
 {
-    protected $app;
+    protected $client;
+    protected $config;
 
-    public function __construct($app)
+    public function __construct(Client $client, Repository $config)
     {
-        $this->app = $app;
+        $this->client = $client;
+        $this->config = $config;
     }
 
     public function request(array $params)
@@ -21,16 +24,17 @@ class Definition
         $query = array_merge([
             'Format' => 'JSON',
             'Version' => '2016-01-20',
-            'AccessKeyId' => $this->app->config['access_key_id'],
+            'AccessKeyId' => $this->config['access_key_id'],
             'SignatureMethod' => 'HMAC-SHA1',
             'Timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
             'SignatureVersion' => '1.0',
+            'SecurityToken' => $this->config['security_token'] ?? null,
         ], $params);
 
-        $query['Signature'] = RpcSignature::sign($query, $this->app->config['access_key_secret']);
+        $query['Signature'] = RpcSignature::sign($query, $this->config['access_key_secret']);
 
-        return $this->request('POST', '/', [
-            'query' => $query,
+        return $this->client->request('POST', '/', [
+            'form_params' => $query,
         ]);
     }
 }

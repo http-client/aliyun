@@ -18,7 +18,7 @@ class Definition
         $this->app = $app;
     }
 
-    public function request($method, $resource, array $options = [])
+    public function request($method, $resource, array $options = [], $requestUrl = null)
     {
         $ch = [
             'x-log-apiversion' => '0.6.0',
@@ -51,9 +51,8 @@ class Definition
 
         $headers['Authorization'] = sprintf('LOG %s:%s', $this->app->config['access_key_id'], AuthorizationSignature::sign($method, $contentMD5, $contentType, $date, $ch, $resource, $this->app->config['access_key_secret']));
 
-        return $this->app->client->request($method, $resource, [
+        return $this->app->client->request($method, $requestUrl ?: $resource, [
             'headers' => $headers,
-            // 'body' => empty($json) ? null : json_encode($json),
         ] + $options);
     }
 

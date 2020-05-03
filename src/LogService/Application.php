@@ -15,7 +15,16 @@ class Application extends BaseApplication
      */
     protected $definitions = [
         'project' => Project::class,
+        'logstore' => Logstore::class,
+        'index' => Index::class,
     ];
+
+    public function getLogProjectBaseUri($name)
+    {
+        $parsed = parse_url($this->client->getBaseUri());
+
+        return sprintf('%s://%s', $parsed['scheme'], $name.'.'.$parsed['host']);
+    }
 
     public function project($name)
     {

@@ -13,13 +13,6 @@ class Filesystem extends Encapsulation
         ], $params));
     }
 
-    public function get($fileSystemId, array $params = [])
-    {
-        return $this->list(array_merge([
-            'FileSystemId' => $fileSystemId,
-        ], $params));
-    }
-
     public function create(array $params)
     {
         return $this->request([
