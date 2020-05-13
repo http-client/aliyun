@@ -28,7 +28,13 @@ class Factory
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        $app = sprintf('HttpClient\\Aliyun\\%s\\Application', ucfirst($name));
+        $aliases = [
+            'kms' => 'KeyManagementService',
+            'oss' => 'ObjectStorageService',
+            'rds' => 'RelationalDatabaseService',
+        ];
+
+        $app = sprintf('HttpClient\\Aliyun\\%s\\Application', $aliases[$name] ?? ucfirst($name));
 
         return new $app(...$arguments);
     }

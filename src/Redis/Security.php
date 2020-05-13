@@ -1,8 +1,8 @@
 <?php
 
-namespace HttpClient\Aliyun\KeyValueStore;
+namespace HttpClient\Aliyun\Redis;
 
-class Security extends Definition
+class Security extends Encapsulation
 {
     public function ipAddresses($instanceId)
     {

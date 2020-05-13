@@ -2,9 +2,9 @@
 
 
 
-namespace HttpClient\Aliyun\KeyValueStore;
+namespace HttpClient\Aliyun\Redis;
 
-class Instance extends Definition
+class Instance extends Encapsulation
 {
     public function create(array $params)
     {

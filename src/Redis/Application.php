@@ -2,7 +2,7 @@
 
 
 
-namespace HttpClient\Aliyun\KeyValueStore;
+namespace HttpClient\Aliyun\Redis;
 
 use HttpClient\Application as BaseApplication;
 

@@ -32,4 +32,12 @@ class UserCertificate extends Encapsulation
             'ShowSize' => $params['ShowSize'] ?? 50,
         ], $params));
     }
+
+    public function delete($certId)
+    {
+        return $this->request([
+            'Action' => 'DeleteUserCertificate',
+            'CertId' => $certId,
+        ]);
+    }
 }

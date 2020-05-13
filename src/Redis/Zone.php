@@ -2,9 +2,9 @@
 
 
 
-namespace HttpClient\Aliyun\KeyValueStore;
+namespace HttpClient\Aliyun\Redis;
 
-class Zone extends Definition
+class Zone extends Encapsulation
 {
     public function list()
     {
