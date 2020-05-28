@@ -3,6 +3,7 @@
 namespace HttpClient\Aliyun\ObjectStorageService;
 
 use HttpClient\Aliyun\Signature\AuthorizationSignature;
+use HttpClient\Support\Arr;
 
 class Bucket extends Encapsulation
 {
@@ -18,10 +19,18 @@ class Bucket extends Encapsulation
             $resource .= '?security-token='.$this->config['security_token'];
         }
 
+        $headers = [];
+
+        foreach ($request->getHeaders() as $key => $value) {
+            $headers[$key] = implode(',', $value);
+        }
+
+        $ch = array_filter(Arr::startsWith($headers, 'x-oss-'));
+
         $signature = AuthorizationSignature::sign(
             $request->getMethod(), '',
             $request->getHeaderLine('Content-Type'),
-            $expires, [], $resource, $this->config['access_key_secret'],
+            $expires, $ch, $resource, $this->config['access_key_secret'],
         );
 
         $query = http_build_query([
